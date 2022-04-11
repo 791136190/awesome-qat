@@ -254,3 +254,20 @@ def transform(m: torch.nn.Module,
 ## 使用和代码解析：
 ---
 
+**[QuantizationSimModel](https://github.com/quic/aimet/blob/986ece886c431f37ad992b3eb7b403f8806bf8a7/TrainingExtensions/torch/src/python/aimet_torch/quantsim.py#L117)** 添加模拟量化节点，模拟推理或者用于微调抵消量化影响
+
+离线位置：TrainingExtensions->torch->src->python->aimet_torch->quantsim.py #line 117
+
+1、校验量化参数是否合理
+
+2、ConnectedGraph 构建图
+
+3、记录每个module的输入输出个数
+
+4、递归插入量化节点 -> 非rnn类默认使用 StaticGridQuantWrapper
+
+5、取消bias的量化
+
+6、调整transformer层的量化策略->修改为16bit？
+
+7、根据第二步得到的图和配置的特殊op进行二次配置修改
