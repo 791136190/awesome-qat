@@ -265,6 +265,21 @@ def transform(m: torch.nn.Module,
 3、记录每个module的输入输出个数
 
 4、递归插入量化节点 -> 非rnn类默认使用 StaticGridQuantWrapper
+核心操作是为每个节点增加
+- self.output_quantizers tensor_quantizer_factory -> of num_outputs
+- self.output_quantizer = self.output_quantizers[0]
+- self._module_to_wrap = module_to_wrap
+- self._mode = QcQuantizeOpMode.ANALYSIS
+- self.param_quantizers[name] = tensor_quantizer_factory
+- self.input_quantizers tensor_quantizer_factory -> of num_inputs
+- self.input_quantizer = self.input_quantizers[0]
+
+StaticGridQuantWrapper 默认 forward行为
+- self._quantize_activation 量化+反量化，如果是分析模型就只统计参数(PTQ)
+- self._quantize_dequantize_params 量化+反量化权重
+- wrapped_output = self._module_to_wrap(*quantized_inputs) 使用量化后的输入+权重进行推理
+- self._restore_shadow_params 恢复权重为没有量化的值
+- self._quantize_activation(self.output_quantizers, wrapped_output) 量化输出
 
 5、取消bias的量化
 
