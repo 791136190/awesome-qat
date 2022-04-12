@@ -166,7 +166,8 @@ def extra_repr(self):
 ```
 
 **重新整理一下流程**
-在获取基本的量化模式和配置之后进行的[prepare](https://github.com/ModelTC/MQBench/blob/32a70a2d8c42b730ceb11a5af4723473dee55dd9/mqbench/custom_quantizer/model_quantizer.py#L62) 会完成参数下发以及节点替换，插入量化节点等操作。
+
+在获取基本的量化模式和配置之后进行的 [prepare](https://github.com/ModelTC/MQBench/blob/32a70a2d8c42b730ceb11a5af4723473dee55dd9/mqbench/custom_quantizer/model_quantizer.py#L62) 会完成参数下发以及节点替换，插入量化节点等操作。
 
 操作完成后的节点图应该如下？
 
@@ -178,11 +179,12 @@ FakeQuant其中包含了
 - min-max统计器完成激活的量化统计 PTQ
 - 激活量化+反量化以及min-max参数统计 QAT
 
-每层的激活，以及权重都有各自的FakeQuant节点
-
+**每层的激活，以及权重都有各自的FakeQuant节点**
 
 实际model run的时候，每个节点都是input->fake_quant->q_module，计算完之后是没有对当前节点output的fake quant操作的
 
-需要实现不同的量化策略和量化后端，都是通过继承重载QuantizeBase来实现
+每层数据输入->对输入进行量化+反量化，统计量化信息->对权重进行量化+反量化，统计量化信息->调用真实的函数比如conv2d进行计算
 
-需要实现不同的值统计器，都是通过继承重载ObserverBase来实现
+- 要实现不同的量化策略和量化后端，通过继承重载QuantizeBase来实现
+
+- 要实现不同的量化信息统计器，通过继承重载ObserverBase来实现
