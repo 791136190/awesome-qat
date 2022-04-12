@@ -170,29 +170,8 @@ def extra_repr(self):
 
 操作完成后的节点图应该如下？
 
-```mermaid
-graph LR
-    H(in) ===> A(Conv1) --> B(Bn1) --> C(Relu1) --> D(Conv2) --> E(Bn2) --> F(Relu2) ==> G(out)
+![MQBench](MQBench1.png)
 
-    WConv1(W1) --> A
-    BConv1(B1) --> A
-    WConv2(W2) --> D
-    BConv2(B2) --> D
-```
-
-```mermaid
-graph LR
-    H(in) ==> FAKE1(FakeQuant1) --> A(qat.ConvBnRelu1) --> FAKE2(FakeQuant2) --> D(qat.ConvBnRelu2) --> FAKE3(FakeQuant3) ==> G(out)
-
-    Observer1(Observer1) --> FAKE1
-    Observer2(Observer2) --> FAKE2
-    Observer3(Observer3) --> FAKE3
-
-    WConv1(W1) --> WFQ1(weight_fake_quant1) --> A
-    BConv1(B1) --> A
-    WConv2(W2) --> WFQ2(weight_fake_quant2) --> D
-    BConv2(B2) --> D
-```
 发生了层融合，融合层替换，添加min-max统计器，添加FakeQuant节点
 
 FakeQuant其中包含了
