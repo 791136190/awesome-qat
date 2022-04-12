@@ -29,7 +29,19 @@
 
 离线目录：mqbench->prepare_by_platform.py #line 294
 
-1、qconfig = get_qconfig_by_platform 获取量化方案，权重量化，激活量化，权重观测，激活观测
+1、qconfig = get_qconfig_by_platform 获取量化方案，权重量化，激活量化，权重观测，激活观测，构造对应的
+- w_observer, w_qscheme -> w_fakequantize
+- a_observer, a_qscheme -> a_fakequantize
+
+```python
+BackendType.SNPE:       dict(qtype='affine',     # noqa: E241
+                                w_qscheme=QuantizeScheme(symmetry=False, per_channel=False, pot_scale=False, bit=8),
+                                a_qscheme=QuantizeScheme(symmetry=False, per_channel=False, pot_scale=False, bit=8),
+                                default_weight_quantize=LearnableFakeQuantize,
+                                default_act_quantize=LearnableFakeQuantize,
+                                default_weight_observer=MinMaxObserver,
+                                default_act_observer=EMAMinMaxObserver),
+```
 
 2、_swap_ff_with_fxff 替换fx不支持的节点 torch.nn.quantized.FloatFunctional <- torch.nn.quantized.FXFloatFunctional()
 - add
