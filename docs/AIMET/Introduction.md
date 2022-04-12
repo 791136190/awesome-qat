@@ -286,3 +286,7 @@ StaticGridQuantWrapper 默认 forward行为
 6、调整transformer层的量化策略->修改为16bit？
 
 7、根据第二步得到的图和配置的特殊op进行二次配置修改
+
+**StaticGridQuantWrapper 对*输入*的量化+反量化是必须进行的，但是*输出*的量化+反量化可能不进行**
+
+![AIMET](AIMET1.png)
