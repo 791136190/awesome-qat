@@ -7,5 +7,6 @@
 |micronet|https://github.com/666DZY666/micronet|[micronet](./micronet/Introduction.md)|
 |TinyNeuralNetWork|https://github.com/alibaba/TinyNeuralNetwork|[TinyNeuralNetwork](./TinyNeuralNetwork/Introduction.md)|
 |brevitas|https://github.com/Xilinx/brevitas|[brevitas](./brevitas/Introduction.md)|
+|pytorch-quantization-demo|https://github.com/Jermmy/pytorch-quantization-demo|[PQDemo](./PQDemo/Introduction.md)|
 |*PPQ|https://github.com/openppl-public/ppq|[ppq](./PPQ/Introduction.md)|
 |*Github|https://github.com/topics/quantization-aware-training|*|
